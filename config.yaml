@@ -1,0 +1,64 @@
+data:
+  baseline_path: data/train.csv
+  stream_dir: data/stream
+  stream_pattern: "stream_*.csv"
+  id_column: null
+  timestamp_column: null
+
+ingestion:
+  source: csv  # options: csv | kafka | api
+  kafka:
+    bootstrap_servers: "${KAFKA_BOOTSTRAP:-localhost:9092}"
+    topic: "${KAFKA_TOPIC:-ml_stream}"
+    group_id: "${KAFKA_GROUP:-drift-monitor}"
+  api:
+    url: "${STREAM_API_URL:-http://localhost:8000/stream}"
+
+drift:
+  window_size: null
+  numerical_tests: ["ks", "js", "psi"]
+  categorical_tests: ["chi2", "js", "psi"]
+  thresholds:
+    ks_pvalue_lt: 0.05
+    js_divergence_gt: 0.1
+    psi_gt: 0.25
+    chi2_pvalue_lt: 0.05
+  aggregate_rule: "any"
+
+concept_drift:
+  detector: "adwin"  # "adwin" | "ddm" (falls back to PageHinkley) | "pagehinkley" | "kswin"
+  adwin_delta: 0.002
+  ddm_warning_level: 2.0
+  ddm_out_control_level: 3.0
+  enabled: true
+
+retraining:
+  enabled: true
+  retrain_on: "either"
+  strategy: "append"
+  min_drift_windows: 1
+  model_type: "logistic_regression"
+  target: "y"
+  cat_columns: ["cat"]
+  numeric_columns: ["f1", "f2", "f3"]
+  test_size: 0.2
+  random_state: 42
+
+alerting:
+  slack:
+    enabled: false
+    webhook_url: "${SLACK_WEBHOOK_URL}"
+  email:
+    enabled: false
+    smtp_host: "${SMTP_HOST}"
+    smtp_port: ${SMTP_PORT}
+    username: "${SMTP_USERNAME}"
+    password: "${SMTP_PASSWORD}"
+    from_addr: "${EMAIL_FROM}"
+    to_addrs: ["${EMAIL_TO}"]
+
+output_dirs:
+  models_dir: "models"
+  registry_path: "models/registry.csv"
+  logs_dir: "logs"
+  charts_dir: "outputs/charts"
