@@ -1,9 +1,5 @@
 # DriftSense - Production-Ready Concept & Data Drift Monitoring (with Auto-Retraining)
 
-[![CI](https://github.com/<YOUR_ORG>/<YOUR_REPO>/actions/workflows/ci.yml/badge.svg)](https://github.com/<YOUR_ORG>/<YOUR_REPO>/actions/workflows/ci.yml)
-[![codecov](https://codecov.io/gh/<YOUR_ORG>/<YOUR_REPO>/branch/main/graph/badge.svg)](https://codecov.io/gh/<YOUR_ORG>/<YOUR_REPO>)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-
 A clean, extensible, **Docker-first** system for detecting **data drift** and **concept drift** in ML pipelines, triggering **auto-retraining**, tracking **model versions**, and sending **alerts**. Includes a realistic **30-day synthetic stream** that injects both feature and label drift.
 
 > **Why it matters:** Drift erodes model ROI. DriftSense turns blind spots into a feedback loop: detect → alert → retrain → version → observe.
